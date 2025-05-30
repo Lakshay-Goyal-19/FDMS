@@ -1,6 +1,5 @@
 package com.abes.fdms.dto;
 
-import com.abes.fdms.util.OrderCostUtil;
 import java.util.Map;
 
 public class OrderDto {
@@ -40,18 +39,5 @@ public class OrderDto {
     
     public DeliveryPersonDto getDeliveryPerson() {
         return deliveryPerson;
-    }
-
-
-    public String orderDetails() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order for ").append(customer.getName()).append("\n");
-        for (Map.Entry<FoodItemDto, Integer> entry : itemsOrdered.entrySet()) {
-            sb.append(entry.getKey()).append(" x ").append(entry.getValue()).append("\n");
-        }
-        double totalCost = OrderCostUtil.calculateTotalCost(this);
-        sb.append("Total Cost: Rs ").append(String.format("%.2f", totalCost)).append("\n");
-        sb.append("Status: ").append(status);
-        return sb.toString();
     }
 }
