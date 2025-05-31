@@ -3,19 +3,18 @@ package com.abes.fdms.service;
 import com.abes.fdms.dao.DeliveryPersonDao;
 import com.abes.fdms.dao.DeliveryPersonDaoImpl;
 import com.abes.fdms.dto.DeliveryPersonDto;
+import com.abes.fdms.exception.DeliveryPersonAlreadyExistsException;
 import java.util.Map;
 
 public class DeliveryService {
     private final DeliveryPersonDao deliveryPersonDao = new DeliveryPersonDaoImpl();
 
-    // Modified: Now takes email and phone, and checks for duplicate ID
-    public boolean registerDeliveryPerson(String id, String name, String email, String phone) {
+    public void registerDeliveryPerson(String id, String name, String email, String phone) throws DeliveryPersonAlreadyExistsException {
         if (deliveryPersonDao.getDeliveryPersons().containsKey(id)) {
-            return false;
+            throw new DeliveryPersonAlreadyExistsException(id);
         }
         DeliveryPersonDto dp = new DeliveryPersonDto(id, name, email, phone);
         deliveryPersonDao.addDeliveryPerson(dp);
-        return true;
     }
 
     public void removeDeliveryPerson(String id) {

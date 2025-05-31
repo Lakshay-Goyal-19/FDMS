@@ -3,15 +3,22 @@ package com.abes.fdms.service;
 import com.abes.fdms.dao.FoodItemDao;
 import com.abes.fdms.dao.FoodItemDaoImpl;
 import com.abes.fdms.dto.FoodItemDto;
+import com.abes.fdms.exception.ItemAlreadyExistsException;
+
 import java.util.Map;
 
 public class FoodService {
     private final FoodItemDao foodItemDao = new FoodItemDaoImpl();
 
-    public void addNewItem(String name, double price, int quantity) {
+    public void addNewItem(String name, double price, int quantity) throws ItemAlreadyExistsException {
+        FoodItemDto existing = foodItemDao.getFoodItemByName(name);
+        if (existing != null) {
+            throw new ItemAlreadyExistsException(name);
+        }
         FoodItemDto item = new FoodItemDto(name, price);
         foodItemDao.addFoodItem(item, quantity);
     }
+
 
     public void restockItem(String name, int quantity) {
         FoodItemDto item = foodItemDao.getFoodItemByName(name);
