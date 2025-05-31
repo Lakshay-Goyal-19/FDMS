@@ -3,6 +3,9 @@ package com.abes.fdms.service;
 import com.abes.fdms.dao.*;
 import com.abes.fdms.dto.*;
 import com.abes.fdms.exception.InvalidOrderException;
+import com.abes.fdms.exception.InvalidQuantityException;
+import com.abes.fdms.exception.ItemNotFoundException;
+import com.abes.fdms.exception.NoDeliveryPersonAvailableException;
 import java.util.*;
 
 public class OrderService {
@@ -10,7 +13,10 @@ public class OrderService {
     private final OrderDao orderDao = new OrderDaoImpl();
     private final FoodItemDao foodItemDao = new FoodItemDaoImpl();
 
-    public OrderDto placeOrder(CustomerDto customer, Map<String, Integer> requestedItems) throws InvalidOrderException {
+    public OrderDto placeOrder(
+        CustomerDto customer,
+        Map<String, Integer> requestedItems
+    ) throws InvalidOrderException, InvalidQuantityException, ItemNotFoundException, NoDeliveryPersonAvailableException {
         Map<FoodItemDto, Integer> orderItems = new HashMap<>();
 
         for (Map.Entry<String, Integer> entry : requestedItems.entrySet()) {
@@ -18,16 +24,16 @@ public class OrderService {
             int quantity = entry.getValue();
 
             if (quantity <= 0) {
-                throw new InvalidOrderException("Quantity for item '" + name + "' must be greater than zero.");
+                throw new InvalidQuantityException();
             }
 
             FoodItemDto item = foodItemDao.getFoodItemByName(name);
 
             if (item == null) {
-                throw new InvalidOrderException("Item does not exist: " + name);
+                throw new ItemNotFoundException();
             }
             if (foodItemDao.getInventory().get(item) < quantity) {
-                throw new InvalidOrderException("Insufficient stock for item: " + name);
+                throw new InvalidOrderException();
             }
 
             orderItems.put(item, quantity);
@@ -35,7 +41,7 @@ public class OrderService {
 
         DeliveryPersonDto dp = deliveryService.getAvailableDeliveryPerson();
         if (dp == null) {
-            throw new InvalidOrderException("No delivery person available");
+            throw new NoDeliveryPersonAvailableException();
         }
 
         for (Map.Entry<FoodItemDto, Integer> entry : orderItems.entrySet()) {
@@ -57,7 +63,6 @@ public class OrderService {
         return userOrders;
     }
 
-    // New method for manager to view all orders
     public List<OrderDto> getAllOrders() {
         return orderDao.getOrders();
     }
