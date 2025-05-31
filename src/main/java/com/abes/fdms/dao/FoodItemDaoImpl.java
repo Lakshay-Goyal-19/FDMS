@@ -22,11 +22,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
 
     @Override
     public FoodItemDto getFoodItemByName(String name) {
-        for (FoodItemDto item : CollectionUtil.inventory.keySet()) {
-            if (item.getName().equalsIgnoreCase(name)) {
-                return item;
-            }
-        }
-        return null;
+        return CollectionUtil.inventory.keySet().stream()
+            .filter(item -> item.getName().equalsIgnoreCase(name))
+            .findFirst()
+            .orElse(null);
     }
 }
