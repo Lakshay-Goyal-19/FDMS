@@ -225,9 +225,9 @@ public class ManagerConsoleUi {
                         }
                         break;
                     case 8:
-                        if(orderService.getAllOrders().isEmpty()){
+                        if(orderService.getAllOrders().isEmpty()) {
                             System.out.println("No orders found.");
-                        } else{
+                        } else {
                             System.out.println("--- All Orders ---");
                         }
                         for (OrderDto order : orderService.getAllOrders()) {
@@ -301,12 +301,21 @@ public class ManagerConsoleUi {
                             System.out.println("Order status set to Completed.");
                         } else if (newStatus.equalsIgnoreCase("Cancelled")) {
                             selectedOrder.setStatus("Cancelled");
+                            Map<FoodItemDto,Integer> m = selectedOrder.getItemsOrdered();
+                            for(Map.Entry<FoodItemDto, Integer> entry:m.entrySet()) {
+                            	FoodItemDto foodItem = entry.getKey();
+                            	int q=entry.getValue();
+                            	foodService.restockItem(foodItem.getName(), q);
+                            }
+                              
                             DeliveryPersonDto deliveryPerson = selectedOrder.getDeliveryPerson();
                             if (deliveryPerson != null) {
                                 deliveryPerson.setAvailable(true);
                             }
                             System.out.println("Order status set to Cancelled.");
-                        } else {
+                            
+                        } 
+                        else {
                             System.out.println("Invalid status.");
                         }
                         break;
