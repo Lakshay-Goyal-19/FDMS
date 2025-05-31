@@ -12,15 +12,15 @@ public class CollectionUtil {
 
     static {
         // Dummy managers
-        managers.put("Lakshay", new ManagerDto("Lakshay", "Default Manager", "lakshay@gmail.com", "1111111111", "Lakshay@1"));
+        managers.put("m123", new ManagerDto("m123", "Default Manager", "manu@gmail.com", "1111111111", "Manu@1"));
 
         // Dummy customers
-        customers.put("Customer1", new CustomerDto("tisha123", "Tisha", "tisha@email.com", "8888888888", "p1"));
-        customers.put("Customer2", new CustomerDto("anusha123", "Anusha", "anusha@email.com", "7777777777", "p2"));
+        customers.put("tisha123", new CustomerDto("tisha123", "Tisha", "tisha@email.com", "8888888888", "Tish@1"));
+        customers.put("anusha123", new CustomerDto("anusha123", "Anusha", "anusha@email.com", "7777777777", "Anush@1"));
 
         // Dummy delivery persons (with email and phone)
-        deliveryPersons.put("Manu", new DeliveryPersonDto("Manu", "Manu", "manu@gmail.com", "9000000001"));
-        deliveryPersons.put("Tanmay", new DeliveryPersonDto("Tanmay", "Tanmay", "tanmay@gmail.com", "9000000002"));
+        deliveryPersons.put("Lakshay", new DeliveryPersonDto("Lakshay", "Lakshay", "lakshay@gmail.com", "9000000001"));
+        deliveryPersons.put("Anshika", new DeliveryPersonDto("Anshika", "Anshika", "anshika@gmail.com", "9000000002"));
 
         // Dummy food items
         FoodItemDto pizza = new FoodItemDto("Pizza", 100.0);
