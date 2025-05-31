@@ -12,18 +12,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Map<String, ManagerDto> getManagers() {
-        return CollectionUtil.managers;
-    }
-
-    @Override
     public void addCustomer(CustomerDto customer) {
         CollectionUtil.customers.put(customer.getId(), customer);
-    }
-
-    @Override
-    public void addManager(ManagerDto manager) {
-        CollectionUtil.managers.put(manager.getId(), manager);
     }
 
     @Override
