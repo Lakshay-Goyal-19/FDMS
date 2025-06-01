@@ -5,10 +5,14 @@ public class CustomerDto extends UserDto {
 
     public CustomerDto(String id, String name, String email, String phoneNumber, String password) {
         super(id, name, email, phoneNumber);
-        this.password = password;
+        setPassword(password);
     }
+    
+    public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getPassword() {
+	public String getPassword() {
         return password;
     }
 

@@ -9,10 +9,10 @@ public class OrderDto {
     private String status;
 
     public OrderDto(CustomerDto customer, DeliveryPersonDto deliveryPerson, Map<FoodItemDto, Integer> itemsOrdered) {
-        this.customer = customer;
-        this.deliveryPerson = deliveryPerson;
-        this.itemsOrdered = itemsOrdered;
-        this.status = "Placed";
+        setCustomer(customer);
+        setDeliveryPerson(deliveryPerson);
+        setItemsOrdered(itemsOrdered);
+        setStatus("Placed");
         deliveryPerson.setAvailable(false);
     }
 
@@ -24,20 +24,34 @@ public class OrderDto {
     public void setStatus(String status) {
         this.status = status;
     }
-
+    
     public String getStatus() {
         return status;
     }
-
+    
+    public void setCustomer(CustomerDto customer) {
+		this.customer = customer;
+	}
+    
     public CustomerDto getCustomer() {
         return customer;
     }
+    
+	public void setDeliveryPerson(DeliveryPersonDto deliveryPerson) {
+		this.deliveryPerson = deliveryPerson;
+	}
+	
+	public DeliveryPersonDto getDeliveryPerson() {
+        return deliveryPerson;
+    }
 
+	public void setItemsOrdered(Map<FoodItemDto, Integer> itemsOrdered) {
+		this.itemsOrdered = itemsOrdered;
+	}
+	
     public Map<FoodItemDto, Integer> getItemsOrdered() {
         return itemsOrdered;
     }
     
-    public DeliveryPersonDto getDeliveryPerson() {
-        return deliveryPerson;
-    }
+    
 }
