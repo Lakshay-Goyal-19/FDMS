@@ -4,11 +4,16 @@ import com.abes.fdms.dto.OrderDto;
 import com.abes.fdms.dto.FoodItemDto;
 import java.util.Map;
 
-//Utility class to calculate the total cost of an order
-
+/**
+ * Utility class to calculate the total cost of an order.
+ */
 public class OrderCostUtil {
 
-    //The total cost as a double
+    /**
+     * Calculates the total cost of the given order.
+     * @param order the order to calculate cost for
+     * @return the total cost as a double
+     */
     public static double calculateTotalCost(OrderDto order) {
         double totalCost = 0.0;
 

@@ -8,8 +8,15 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link OrderFormatterUtil}.
+ * Verifies formatting of order details.
+ */
 class OrderFormatterUtilTest {
 
+    /**
+     * Tests that the formatted order details string contains all expected information.
+     */
     @Test
     void testFormatOrderDetails() {
         CustomerDto customer = new CustomerDto("c1", "Alice", "alice@email.com", "1234567890", "Pass@123");

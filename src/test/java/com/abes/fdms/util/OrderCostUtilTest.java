@@ -8,8 +8,15 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link OrderCostUtil}.
+ * Verifies calculation of total order cost.
+ */
 class OrderCostUtilTest {
 
+    /**
+     * Tests calculation of total cost for an order with multiple items.
+     */
     @Test
     void testCalculateTotalCost() {
         CustomerDto customer = new CustomerDto("c1", "Alice", "alice@email.com", "1234567890", "Pass@123");
@@ -23,6 +30,9 @@ class OrderCostUtilTest {
         assertEquals(100.0 * 2 + 50.0 * 3, total, 0.001);
     }
 
+    /**
+     * Tests calculation of total cost for an empty order.
+     */
     @Test
     void testCalculateTotalCost_EmptyOrder() {
         CustomerDto customer = new CustomerDto("c2", "Bob", "bob@email.com", "1234567891", "Pass@123");
