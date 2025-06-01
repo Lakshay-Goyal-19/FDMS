@@ -3,8 +3,8 @@ package com.abes.fdms.ui;
 import com.abes.fdms.dto.ManagerDto;
 import com.abes.fdms.dto.DeliveryPersonDto;
 import com.abes.fdms.dto.OrderDto;
-import com.abes.fdms.exception.ItemAlreadyExistsException;
-import com.abes.fdms.exception.DeliveryPersonAlreadyExistsException;
+import com.abes.fdms.exception.DuplicateItemException;
+import com.abes.fdms.exception.DuplicateDeliveryPersonException;
 import com.abes.fdms.dto.CustomerDto;
 import com.abes.fdms.dto.FoodItemDto;
 import com.abes.fdms.service.ManagerService;
@@ -50,7 +50,6 @@ public class ManagerConsoleUi {
         System.out.println("                       --- Login successful. Welcome, " + manager.getId() + "! ---");
 
         while (true) {
-            try {
             	System.out.println("======================================================================================================");
                 System.out.println("--- Manager Menu ---");
                 System.out.println("1. Add Food Item");
@@ -64,7 +63,6 @@ public class ManagerConsoleUi {
                 System.out.println("9. Remove Delivery Person");
                 System.out.println("10. Show All Delivery Persons");
                 System.out.println("11. Logout");
-//                System.out.println("9. Change Delivery Person Availability");
                 System.out.println("======================================================================================================");
                 String input = sc.nextLine();
                 int choice;
@@ -117,7 +115,7 @@ public class ManagerConsoleUi {
                         try {
                             foodService.addNewItem(name, price, qty);
                             System.out.println("Item added.");
-                        } catch (ItemAlreadyExistsException e) {
+                        } catch (DuplicateItemException e) {
                             System.out.println(e.getMessage());
                         }
 
@@ -277,7 +275,7 @@ public class ManagerConsoleUi {
                         try {
                             deliveryService.registerDeliveryPerson(dpId, dpName, dpEmail, dpPhone);
                             System.out.println("Delivery person registered.");
-                        } catch (DeliveryPersonAlreadyExistsException e) {
+                        } catch (DuplicateDeliveryPersonException e) {
                             System.out.println(e.getMessage());
                         }
                         break;
@@ -305,10 +303,6 @@ public class ManagerConsoleUi {
                     default:
                         System.out.println("Invalid option.");
                 }
-            } catch (Exception e) {
-                System.out.println("An unexpected error occurred: " + e.getMessage());
-                e.printStackTrace();
-            }
         }
     }
 }

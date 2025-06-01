@@ -5,7 +5,7 @@ import com.abes.fdms.dto.*;
 import com.abes.fdms.exception.InvalidOrderException;
 import com.abes.fdms.exception.InvalidQuantityException;
 import com.abes.fdms.exception.ItemNotFoundException;
-import com.abes.fdms.exception.NoDeliveryPersonAvailableException;
+import com.abes.fdms.exception.DeliveryPersonUnavailableException;
 import java.util.*;
 
 public class OrderService {
@@ -16,7 +16,7 @@ public class OrderService {
     public OrderDto placeOrder(
         CustomerDto customer,
         Map<String, Integer> requestedItems
-    ) throws InvalidOrderException, InvalidQuantityException, ItemNotFoundException, NoDeliveryPersonAvailableException {
+    ) throws InvalidOrderException, InvalidQuantityException, ItemNotFoundException, DeliveryPersonUnavailableException {
         Map<FoodItemDto, Integer> orderItems = new HashMap<>();
 
         for (Map.Entry<String, Integer> entry : requestedItems.entrySet()) {
@@ -41,7 +41,7 @@ public class OrderService {
 
         DeliveryPersonDto dp = deliveryService.getAvailableDeliveryPerson();
         if (dp == null) {
-            throw new NoDeliveryPersonAvailableException();
+            throw new DeliveryPersonUnavailableException();
         }
 
         for (Map.Entry<FoodItemDto, Integer> entry : orderItems.entrySet()) {
