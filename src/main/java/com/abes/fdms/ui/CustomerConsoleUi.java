@@ -161,7 +161,7 @@ public class CustomerConsoleUi {
                         System.out.println("Invalid quantity: " + e.getMessage());
                     } catch (ItemNotFoundException e) {
                         System.out.println("Item not found: " + e.getMessage());
-                    } catch (NoDeliveryPersonAvailableException e) {
+                    } catch (DeliveryPersonUnavailableException e) {
                         System.out.println("No delivery person available: " + e.getMessage());
                     } catch (InvalidOrderException e) {
                         System.out.println("Order error: " + e.getMessage());
