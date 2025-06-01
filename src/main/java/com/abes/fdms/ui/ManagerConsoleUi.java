@@ -46,23 +46,26 @@ public class ManagerConsoleUi {
                 System.out.println("Invalid credentials. Try again.");
             }
         }
-        System.out.println("Login successful. Welcome, " + manager.getId() + "!");
+        System.out.println("======================================================================================================");
+        System.out.println("                       --- Login successful. Welcome, " + manager.getId() + "! ---");
 
         while (true) {
             try {
-                System.out.println("\n--- Manager Menu ---");
+            	System.out.println("======================================================================================================");
+                System.out.println("--- Manager Menu ---");
                 System.out.println("1. Add Food Item");
-                System.out.println("2. Restock Food Item");
-                System.out.println("3. Remove Food Item");
-                System.out.println("4. Register Delivery Person");
-                System.out.println("5. Remove Delivery Person");
-                System.out.println("6. Show All Delivery Persons");
-                System.out.println("7. Show Food Items");
-                System.out.println("8. Show All Orders");
-                System.out.println("9. Change Delivery Person Availability");
-                System.out.println("10. Show All Users");
-                System.out.println("11. Change Order Status");
-                System.out.println("12. Logout");
+                System.out.println("2. Show Food Items");
+                System.out.println("3. Restock Food Item");
+                System.out.println("4. Remove Food Item");
+                System.out.println("5. Show All Orders");
+                System.out.println("6. Change Order Status");
+                System.out.println("7. Show All Users");
+                System.out.println("8. Register Delivery Person");
+                System.out.println("9. Remove Delivery Person");
+                System.out.println("10. Show All Delivery Persons");
+                System.out.println("11. Logout");
+//                System.out.println("9. Change Delivery Person Availability");
+                System.out.println("======================================================================================================");
                 String input = sc.nextLine();
                 int choice;
                 try {
@@ -120,6 +123,15 @@ public class ManagerConsoleUi {
 
                         break;
                     case 2:
+                        Map<FoodItemDto, Integer> menu = foodService.getMenu();
+                        if (menu.isEmpty()) {
+                            System.out.println("No food items found.");
+                        } else {
+                            System.out.println("--- Food Items ---");
+                            menu.forEach((item, quantity) -> System.out.println(item + " | Quantity: " + quantity));
+                        }
+                        break;
+                    case 3:
                         System.out.print("Enter Item Name: ");
                         String restockName = sc.nextLine();
                         FoodItemDto restockItem = foodService.getFoodItemByName(restockName);
@@ -145,7 +157,7 @@ public class ManagerConsoleUi {
                         foodService.restockItem(restockName, restockQty);
                         System.out.println("Stock updated.");
                         break;
-                    case 3:
+                    case 4:
                         System.out.print("Enter Food Item Name to remove: ");
                         String removeItem = sc.nextLine();
                         FoodItemDto itemToRemove = foodService.getFoodItemByName(removeItem);
@@ -156,75 +168,7 @@ public class ManagerConsoleUi {
                             System.out.println("Item removed.");
                         }
                         break;
-                    case 4:
-                        String dpId;
-                        do {
-                            System.out.print("Enter Delivery Person ID: ");
-                            dpId = sc.nextLine();
-                            if (dpId.trim().isEmpty()) {
-                                System.out.println("ID cannot be empty.");
-                            }
-                        } while (dpId.trim().isEmpty());
-                        String dpName;
-                        do {
-                            System.out.print("Enter Delivery Person Name: ");
-                            dpName = sc.nextLine();
-                            if (!InputValidationUtil.isValidName(dpName)) {
-                                System.out.println("Name cannot be numeric or empty.");
-                            }
-                        } while (!InputValidationUtil.isValidName(dpName));
-                        String dpEmail;
-                        do {
-                            System.out.print("Enter Delivery Person Email: ");
-                            dpEmail = sc.nextLine();
-                            if (!InputValidationUtil.isValidEmail(dpEmail)) {
-                                System.out.println("Invalid email format.");
-                            }
-                        } while (!InputValidationUtil.isValidEmail(dpEmail));
-                        String dpPhone;
-                        do {
-                            System.out.print("Enter Delivery Person Phone: ");
-                            dpPhone = sc.nextLine();
-                            if (!InputValidationUtil.isValidPhoneNumber(dpPhone)) {
-                                System.out.println("Invalid phone number format.");
-                            }
-                        } while (!InputValidationUtil.isValidPhoneNumber(dpPhone));
-                        try {
-                            deliveryService.registerDeliveryPerson(dpId, dpName, dpEmail, dpPhone);
-                            System.out.println("Delivery person registered.");
-                        } catch (DeliveryPersonAlreadyExistsException e) {
-                            System.out.println(e.getMessage());
-                        }
-                        break;
                     case 5:
-                        System.out.print("Enter Delivery Person ID to remove: ");
-                        String removeDpId = sc.nextLine();
-                        DeliveryPersonDto dpToRemove = deliveryService.getAllDeliveryPersons().get(removeDpId);
-                        if (dpToRemove == null) {
-                            System.out.println("Delivery person does not exist.");
-                        } else {
-                            deliveryService.removeDeliveryPerson(removeDpId);
-                            System.out.println("Delivery person removed.");
-                        }
-                        break;
-                    case 6:
-                        Map<String, DeliveryPersonDto> dps = deliveryService.getAllDeliveryPersons();
-                        if (dps.isEmpty()) {
-                            System.out.println("No delivery persons found.");
-                        } else {
-                            dps.values().forEach(dp -> System.out.println(dp.getId() + " - " + dp.getName() + " (Email: " + dp.getEmail() + ", Phone: " + dp.getPhoneNumber() + ", Available: " + dp.isAvailable() + ")"));
-                        }
-                        break;
-                    case 7:
-                        Map<FoodItemDto, Integer> menu = foodService.getMenu();
-                        if (menu.isEmpty()) {
-                            System.out.println("No food items found.");
-                        } else {
-                            System.out.println("--- Food Items ---");
-                            menu.forEach((item, quantity) -> System.out.println(item + " | Quantity: " + quantity));
-                        }
-                        break;
-                    case 8:
                         if(orderService.getAllOrders().isEmpty()) {
                             System.out.println("No orders found.");
                         } else {
@@ -234,38 +178,7 @@ public class ManagerConsoleUi {
                             System.out.println(OrderFormatterUtil.formatOrderDetails(order) + "\n");
                         }
                         break;
-                    case 9:
-                        System.out.print("Enter Delivery Person ID: ");
-                        String updateDpId = sc.nextLine();
-                        DeliveryPersonDto dp = deliveryService.getAllDeliveryPersons().get(updateDpId);
-                        if (dp == null) {
-                            System.out.println("Delivery person not found.");
-                        } else {
-                            boolean validInput = false;
-                            while (!validInput) {
-                                System.out.print("Set availability (true/false): ");
-                                String availInput = sc.nextLine();
-                                if (availInput.equalsIgnoreCase("true") || availInput.equalsIgnoreCase("false")) {
-                                    boolean available = Boolean.parseBoolean(availInput);
-                                    deliveryService.updateStatus(updateDpId, available);
-                                    System.out.println("Availability updated.");
-                                    validInput = true;
-                                } else {
-                                    System.out.println("Invalid input. Please enter true or false.");
-                                }
-                            }
-                        }
-                        break;
-                    case 10:
-                        System.out.println("--- All Customers ---");
-                        Map<String, CustomerDto> customers = customerService.getAllCustomers();
-                        if (customers.isEmpty()) {
-                            System.out.println("No customers found.");
-                        } else {
-                            customers.values().forEach(c -> System.out.println("Customer ID: " + c.getId() + ", Name: " + c.getName() + ", Email: " + c.getEmail() + ", Phone: " + c.getPhoneNumber()));
-                        }
-                        break;
-                    case 11:
+                    case 6:
                         // Change Order Status
                         List<OrderDto> allOrders = orderService.getAllOrders();
                         if (allOrders.isEmpty()) {
@@ -319,7 +232,75 @@ public class ManagerConsoleUi {
                             System.out.println("Invalid status.");
                         }
                         break;
-                    case 12:
+                    case 7:
+                        System.out.println("--- All Customers ---");
+                        Map<String, CustomerDto> customers = customerService.getAllCustomers();
+                        if (customers.isEmpty()) {
+                            System.out.println("No customers found.");
+                        } else {
+                            customers.values().forEach(c -> System.out.println("Customer ID: " + c.getId() + ", Name: " + c.getName() + ", Email: " + c.getEmail() + ", Phone: " + c.getPhoneNumber()));
+                        }
+                        break;
+                    case 8:
+                        String dpId;
+                        do {
+                            System.out.print("Enter Delivery Person ID: ");
+                            dpId = sc.nextLine();
+                            if (dpId.trim().isEmpty()) {
+                                System.out.println("ID cannot be empty.");
+                            }
+                        } while (dpId.trim().isEmpty());
+                        String dpName;
+                        do {
+                            System.out.print("Enter Delivery Person Name: ");
+                            dpName = sc.nextLine();
+                            if (!InputValidationUtil.isValidName(dpName)) {
+                                System.out.println("Name cannot be numeric or empty.");
+                            }
+                        } while (!InputValidationUtil.isValidName(dpName));
+                        String dpEmail;
+                        do {
+                            System.out.print("Enter Delivery Person Email: ");
+                            dpEmail = sc.nextLine();
+                            if (!InputValidationUtil.isValidEmail(dpEmail)) {
+                                System.out.println("Invalid email format.");
+                            }
+                        } while (!InputValidationUtil.isValidEmail(dpEmail));
+                        String dpPhone;
+                        do {
+                            System.out.print("Enter Delivery Person Phone: ");
+                            dpPhone = sc.nextLine();
+                            if (!InputValidationUtil.isValidPhoneNumber(dpPhone)) {
+                                System.out.println("Invalid phone number format.");
+                            }
+                        } while (!InputValidationUtil.isValidPhoneNumber(dpPhone));
+                        try {
+                            deliveryService.registerDeliveryPerson(dpId, dpName, dpEmail, dpPhone);
+                            System.out.println("Delivery person registered.");
+                        } catch (DeliveryPersonAlreadyExistsException e) {
+                            System.out.println(e.getMessage());
+                        }
+                        break;
+                    case 9:
+                        System.out.print("Enter Delivery Person ID to remove: ");
+                        String removeDpId = sc.nextLine();
+                        DeliveryPersonDto dpToRemove = deliveryService.getAllDeliveryPersons().get(removeDpId);
+                        if (dpToRemove == null) {
+                            System.out.println("Delivery person does not exist.");
+                        } else {
+                            deliveryService.removeDeliveryPerson(removeDpId);
+                            System.out.println("Delivery person removed.");
+                        }
+                        break;
+                    case 10:
+                        Map<String, DeliveryPersonDto> dps = deliveryService.getAllDeliveryPersons();
+                        if (dps.isEmpty()) {
+                            System.out.println("No delivery persons found.");
+                        } else {
+                            dps.values().forEach(dp -> System.out.println(dp.getId() + " - " + dp.getName() + " (Email: " + dp.getEmail() + ", Phone: " + dp.getPhoneNumber() + ", Available: " + dp.isAvailable() + ")"));
+                        }
+                        break;
+                    case 11:
                         return;
                     default:
                         System.out.println("Invalid option.");

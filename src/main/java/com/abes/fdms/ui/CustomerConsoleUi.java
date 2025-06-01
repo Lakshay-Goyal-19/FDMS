@@ -18,7 +18,9 @@ public class CustomerConsoleUi {
     public void showMenu() {
         Scanner sc = new Scanner(System.in);
         while (true) {
+        	System.out.println("======================================================================================================");
             System.out.println("1. Sign Up\n2. Log In\n3. Back");
+            System.out.println("======================================================================================================");
             String input = sc.nextLine();
             int choice;
             try {
@@ -86,6 +88,7 @@ public class CustomerConsoleUi {
                     }
                     CustomerDto customer = customerService.loginCustomer(id, password);
                     if (customer != null) {
+                    	System.out.println("Log-in Successful");
                         handleLoggedInCustomer(customer, sc);
                     } else {
                         System.out.println("Invalid credentials.");
@@ -101,7 +104,10 @@ public class CustomerConsoleUi {
 
     private void handleLoggedInCustomer(CustomerDto customer, Scanner sc) {
         while (true) {
-            System.out.println("\n1. Show Menu\n2. Place Order\n3. Show My Orders\n4. Logout");
+        	
+        	System.out.println("======================================================================================================");
+            System.out.println("1. Show Menu\n2. Place Order\n3. Show My Orders\n4. Logout");
+            System.out.println("======================================================================================================");
             String input = sc.nextLine();
             int choice;
             try {
@@ -163,6 +169,9 @@ public class CustomerConsoleUi {
                     break;
                 case 3:
                     List<OrderDto> orders = orderService.getOrdersByCustomer(customer.getId());
+                    if(orders.isEmpty()|| orders == null) {
+                    	System.out.println("--- No Orders ---");
+                    }
                     for (OrderDto o : orders) {
                         System.out.println(OrderFormatterUtil.formatOrderDetails(o) + "\n");
                     }

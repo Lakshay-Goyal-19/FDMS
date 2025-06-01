@@ -10,9 +10,12 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         ManagerConsoleUi managerUI = new ManagerConsoleUi();
         CustomerConsoleUi customerUI = new CustomerConsoleUi();
-        System.out.println("Welcome to Online Food Delivery Management System");
+        System.out.println("======================================================================================================");
+        System.out.println("                       --- Welcome to Online Food Delivery Management System ---");
         while (true) {
+        	System.out.println("======================================================================================================");
             System.out.println("Select Role:\n1. Manager\n2. User\n3. Exit");
+            System.out.println("======================================================================================================");
             String input = sc.nextLine();
             int choice;
             try {

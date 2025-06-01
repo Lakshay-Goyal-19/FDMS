@@ -7,10 +7,14 @@ public class ManagerDto extends UserDto {
 
     public ManagerDto(String id, String name, String email, String phoneNumber, String password) {
         super(id, name, email, phoneNumber);
-        this.password = password;
+        setPassword(password);
     }
 
-    public String getPassword() {
+    public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getPassword() {
         return password;
     }
 
