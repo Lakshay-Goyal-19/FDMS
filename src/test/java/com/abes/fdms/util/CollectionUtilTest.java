@@ -5,8 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link CollectionUtil}.
+ * Verifies that the reset method clears all collections.
+ */
 class CollectionUtilTest {
 
+    /**
+     * Tests that the reset method clears all static collections in CollectionUtil.
+     */
     @Test
     void testResetClearsAllCollections() {
         // Add dummy data

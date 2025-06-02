@@ -10,6 +10,10 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link OrderService}.
+ * Tests placing orders and order validation.
+ */
 class OrderServiceTest {
 
     private OrderService orderService;
@@ -19,6 +23,9 @@ class OrderServiceTest {
 
     private CustomerDto customer;
 
+    /**
+     * Sets up a clean state and test data before each test.
+     */
     @BeforeEach
     void setUp() throws Exception {
         CollectionUtil.reset(); // Ensure clean state before each test
@@ -35,6 +42,9 @@ class OrderServiceTest {
         foodService.addNewItem("OrderPizza", 100.0, 5);
     }
 
+    /**
+     * Tests successful order placement.
+     */
     @Test
     void testPlaceOrder_Success() throws Exception {
         Map<String, Integer> requested = new HashMap<>();
@@ -45,6 +55,9 @@ class OrderServiceTest {
         assertEquals(2, order.getItemsOrdered().get(foodService.getFoodItemByName("OrderPizza")));
     }
 
+    /**
+     * Tests placing an order with invalid quantity throws exception.
+     */
     @Test
     void testPlaceOrder_InvalidQuantity() {
         Map<String, Integer> requested = new HashMap<>();
@@ -54,6 +67,9 @@ class OrderServiceTest {
         });
     }
 
+    /**
+     * Tests placing an order for a non-existent item throws exception.
+     */
     @Test
     void testPlaceOrder_ItemNotFound() {
         Map<String, Integer> requested = new HashMap<>();
@@ -63,6 +79,9 @@ class OrderServiceTest {
         });
     }
 
+    /**
+     * Tests placing an order with insufficient stock throws exception.
+     */
     @Test
     void testPlaceOrder_InsufficientStock() {
         Map<String, Integer> requested = new HashMap<>();

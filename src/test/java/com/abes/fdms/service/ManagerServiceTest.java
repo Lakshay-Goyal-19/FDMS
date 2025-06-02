@@ -6,10 +6,17 @@ import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link ManagerService}.
+ * Tests manager login functionality.
+ */
 class ManagerServiceTest {
 
     private ManagerService managerService;
 
+    /**
+     * Sets up a clean state and adds a dummy manager before each test.
+     */
     @BeforeEach
     void setUp() {
         CollectionUtil.reset();
@@ -18,6 +25,9 @@ class ManagerServiceTest {
         managerService = new ManagerService();
     }
 
+    /**
+     * Tests successful manager login.
+     */
     @Test
     void testLoginManager_Success() {
         ManagerDto manager = managerService.loginManager("m1", "Pass@123");
@@ -25,12 +35,18 @@ class ManagerServiceTest {
         assertEquals("m1", manager.getId());
     }
 
+    /**
+     * Tests login fails with wrong password.
+     */
     @Test
     void testLoginManager_WrongPassword() {
         ManagerDto manager = managerService.loginManager("m1", "WrongPass");
         assertNull(manager);
     }
 
+    /**
+     * Tests login fails for non-existent manager ID.
+     */
     @Test
     void testLoginManager_NonExistentId() {
         ManagerDto manager = managerService.loginManager("notfound", "Pass@123");

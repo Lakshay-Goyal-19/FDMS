@@ -4,8 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link InputValidationUtil}.
+ * Tests validation of email, phone number, name, and password.
+ */
 class InputValidationUtilTest {
 
+    /**
+     * Tests valid and invalid email formats.
+     */
     @Test
     void testValidEmail() {
         assertTrue(InputValidationUtil.isValidEmail("test@example.com"));
@@ -14,6 +21,9 @@ class InputValidationUtilTest {
         assertFalse(InputValidationUtil.isValidEmail(null));
     }
 
+    /**
+     * Tests valid and invalid phone number formats.
+     */
     @Test
     void testValidPhoneNumber() {
         assertTrue(InputValidationUtil.isValidPhoneNumber("1234567890"));
@@ -22,6 +32,9 @@ class InputValidationUtilTest {
         assertFalse(InputValidationUtil.isValidPhoneNumber(null));
     }
 
+    /**
+     * Tests valid and invalid name formats.
+     */
     @Test
     void testValidName() {
         assertTrue(InputValidationUtil.isValidName("John Doe"));
@@ -31,6 +44,9 @@ class InputValidationUtilTest {
         assertFalse(InputValidationUtil.isValidName("   "));
     }
 
+    /**
+     * Tests valid and invalid password formats.
+     */
     @Test
     void testValidPassword() {
         assertTrue(InputValidationUtil.isValidPassword("Abc@123"));

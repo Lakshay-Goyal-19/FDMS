@@ -4,12 +4,16 @@ import com.abes.fdms.dto.OrderDto;
 import com.abes.fdms.dto.FoodItemDto;
 import java.util.Map;
 
-
-//Utility class for formatting order details into a readable string.
-
+/**
+ * Utility class for formatting order details into a readable string.
+ */
 public class OrderFormatterUtil {
 
-    //Returns a formatted string with all details of the given order.
+    /**
+     * Returns a formatted string with all details of the given order.
+     * @param order the order to format
+     * @return formatted order details as a string
+     */
     public static String formatOrderDetails(OrderDto order) {
         StringBuilder sb = new StringBuilder();
 

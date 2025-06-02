@@ -8,11 +8,25 @@ import com.abes.fdms.exception.ItemNotFoundException;
 import com.abes.fdms.exception.DeliveryPersonUnavailableException;
 import java.util.*;
 
+/**
+ * Service class for placing and managing orders.
+ */
 public class OrderService {
     private final DeliveryService deliveryService = new DeliveryService();
     private final OrderDao orderDao = new OrderDaoImpl();
     private final FoodItemDao foodItemDao = new FoodItemDaoImpl();
 
+    /**
+     * Places a new order for a customer.
+     *
+     * @param customer The customer placing the order
+     * @param requestedItems Map of item names to quantities
+     * @return The created OrderDto
+     * @throws InvalidOrderException If the order is invalid
+     * @throws InvalidQuantityException If any quantity is invalid
+     * @throws ItemNotFoundException If any item is not found
+     * @throws DeliveryPersonUnavailableException If no delivery person is available
+     */
     public OrderDto placeOrder(
         CustomerDto customer,
         Map<String, Integer> requestedItems
@@ -53,6 +67,12 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Retrieves all orders placed by a specific customer.
+     *
+     * @param customerId Customer ID
+     * @return List of OrderDto for the customer
+     */
     public List<OrderDto> getOrdersByCustomer(String customerId) {
         List<OrderDto> userOrders = new ArrayList<>();
         for (OrderDto o : orderDao.getOrders()) {
@@ -63,6 +83,11 @@ public class OrderService {
         return userOrders;
     }
 
+    /**
+     * Retrieves all orders in the system.
+     *
+     * @return List of all OrderDto
+     */
     public List<OrderDto> getAllOrders() {
         return orderDao.getOrders();
     }
